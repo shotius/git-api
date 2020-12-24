@@ -1,64 +1,55 @@
-import React from "react";
+import {useState} from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Redirect,
   Route
 } from "react-router-dom";
-//import {  } from 'react-router'
-import {useState} from 'react'
+import Home from './components/Home'
+import UserPage from './components/UserPage'
 
 export default function App() {
-  const [isRedirect, setIsRedirect] = useState(false)
+  const [isSearching, setIsSearching] = useState(false)
+  const [username, setUsername] = useState('')
+  const [selebrities, setSelebrities] = useState([])
 
+  // this is for input field 
+  const handleUserInput = (e) => 
+        setUsername(e.target.value)
+
+  // this is for search button
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("clicked");
-    setIsRedirect(true)
+    setIsSearching(true)
   } 
-
+  
   return (
     <Router>
-      <div>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+
+        {/* if search button is clicked, we redirect to the the username page */}
+        {isSearching ? <Redirect to={`/${username}`}/> : <Redirect to="/" />}
+
         
-        {isRedirect ? <Redirect to="/about"/> : <Redirect to="/" />}
-        
+      {/*we got two routes
+        '/'  - route is renders <Home/> component
+        '/:username' - route randers <UserPage/> component*/}
         <Switch>
-          <Route exact path="/about">
-            <About setIsRedirect={setIsRedirect} isRedirect={isRedirect}/>
+          <Route exact path="/:username">
+            <UserPage 
+                setIsSearching={setIsSearching}
+                isSearching={isSearching}
+                />
           </Route>
           <Route exact path="/">
-            <Home />
+            <Home 
+                handleUserInput={handleUserInput}
+                handleSubmit={handleSubmit}
+                selebrities={selebrities}
+                setSelebrities={setSelebrities}
+                />
           </Route>
         </Switch>
-      </div>
+    
     </Router>
-  );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About({isRedirect, setIsRedirect}) {
-  const handleBack = (e) => {
-    e.preventDefault();
-    console.log("clicked back")
-    setIsRedirect(false)
-  }
-  console.log(isRedirect) 
-  return (
-    <div>
-    <h2>I cant believe I am on 'About' page</h2>
-    <form onSubmit={handleBack}>
-      <button type="submit">back to main</button>
-    </form>
-    </div>
-
   );
 }
