@@ -25,28 +25,28 @@ export default function App() {
   var val;
 
   useEffect(() => {
-    if (!localStorage.getItem('someVar')){
+    if (!sessionStorage.getItem('someVar')){
       val = 1
       console.log("first set val")
-      localStorage.setItem("someVar", val);
+      sessionStorage.setItem("someVar", val);
     } else {
-      val = localStorage.getItem('someVar')
+      val = sessionStorage.getItem('someVar')
       console.log("first get value", val)
     }
     
   }, [])
   
   
-    console.log("second get value", localStorage.getItem('someVar'))
+    console.log("second get value", sessionStorage.getItem('someVar'))
     
     // this is for input field change
     const handleUserInput = (e) => {
       setUsername(e.target.value)
 
       
-      val = localStorage.getItem('someVar')
+      val = sessionStorage.getItem('someVar')
       val ++
-      localStorage.setItem("someVar", val);
+      sessionStorage.setItem("someVar", val);
       console.log("setting value ", val)
     }
     
