@@ -1,64 +1,90 @@
-import React from "react";
+/**
+ * - this compnent is ancestor of 'Home' and 'UserPage' components 
+ * - two states,  user search variable and searching boolean kept in this component
+ * - file consists two main routs
+ */
+import {useState, useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Redirect,
   Route
 } from "react-router-dom";
-//import {  } from 'react-router'
-import {useState} from 'react'
+
+import Home from './components/Home'
+import UserPage from './components/UserPage'
 
 export default function App() {
-  const [isRedirect, setIsRedirect] = useState(false)
+  // this boolean variable if true browser redirects to the /:username page
+  const [isSearching, setIsSearching] = useState(false)
+  // this is username variable to search for
+  const [username, setUsername] = useState('')
+  // this is for suggested words for search
+  const [suggestions, setSuggestions] = useState([])
+  
+  var val;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("clicked");
-    setIsRedirect(true)
+  useEffect(() => {
+    if (!localStorage.getItem('someVar')){
+      val = 1
+      console.log("first set val")
+      localStorage.setItem("someVar", val);
+    } else {
+      val = localStorage.getItem('someVar')
+      console.log("first get value", val)
+    }
+    
+  }, [])
+  
+  
+    console.log("second get value", localStorage.getItem('someVar'))
+    
+    // this is for input field change
+    const handleUserInput = (e) => {
+      setUsername(e.target.value)
+
+      
+      val = localStorage.getItem('someVar')
+      val ++
+      localStorage.setItem("someVar", val);
+      console.log("setting value ", val)
+    }
+    
+    // this is for search button submission
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setIsSearching(true)
+      setSuggestions(suggestions.concat(username))
+  
   } 
-
+  
   return (
     <Router>
-      <div>
-        <div>
-          <form onSubmit={handleSubmit}>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
+
+        {/* if search button is clicked, we redirect to the the page where is displayed user info */}
+        {isSearching ? <Redirect to={`/${username}`}/> : <Redirect to="/" />}
+
         
-        {isRedirect ? <Redirect to="/about"/> : <Redirect to="/" />}
-        
+      {/*we got two routes
+        '/'  - route is renders <Home/> component
+        '/:username' - route randers <UserPage/> component*/}
         <Switch>
-          <Route exact path="/about">
-            <About setIsRedirect={setIsRedirect} isRedirect={isRedirect}/>
+          <Route exact path="/:username">
+            <UserPage 
+                setIsSearching={setIsSearching}
+                setUsername={setUsername}
+                />
           </Route>
           <Route exact path="/">
-            <Home />
+            <Home 
+                handleUserInput={handleUserInput}
+                handleSubmit={handleSubmit}
+                suggestions={suggestions}
+                username={username}
+                />
           </Route>
         </Switch>
-      </div>
+    
     </Router>
-  );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About({isRedirect, setIsRedirect}) {
-  const handleBack = (e) => {
-    e.preventDefault();
-    console.log("clicked back")
-    setIsRedirect(false)
-  }
-  console.log(isRedirect) 
-  return (
-    <div>
-    <h2>I cant believe I am on 'About' page</h2>
-    <form onSubmit={handleBack}>
-      <button type="submit">back to main</button>
-    </form>
-    </div>
-
   );
 }

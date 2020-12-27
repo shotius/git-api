@@ -1,16 +1,20 @@
-function UserPage ({isSearching, setIsSearching}) {
+function UserPage ({setIsSearching, setUsername}) {
     
     const handleBack = (e) => {
       e.preventDefault();
       setIsSearching(false)
+      setUsername('')
     }
 
     return (
       <div>
         <h2>I cant believe I am on 'user' page</h2>
-        <form onSubmit={handleBack}>
-            <button type="submit">Home</button>
-        </form>
+            <button 
+                type="submit" 
+                onClick={handleBack} 
+                >
+                  Home
+            </button>
       </div>
     );
   }
