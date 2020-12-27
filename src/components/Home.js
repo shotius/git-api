@@ -15,7 +15,7 @@ const octokit = new Octokit({auth: `${process.env.REACT_APP_TOKEN}`});
 //console.log(process.env.TOKEN)
 
 // main export function
-const  Home = ({ handleSubmit, handleUserInput, suggestions, username }) => {
+const  Home = ({ handleSubmit, handleUserInput, username }) => {
     const [selebrities, setSelebrities] = useState([])
 
     // fetch data of the most popular users on github 
@@ -39,7 +39,6 @@ const  Home = ({ handleSubmit, handleUserInput, suggestions, username }) => {
           <SearchForm 
                 handleSubmit={handleSubmit}
                 handleUserInput={handleUserInput}
-                suggestions={suggestions}
                 username={username}
                 />
 

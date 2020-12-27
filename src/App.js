@@ -19,9 +19,6 @@ export default function App() {
   const [isSearching, setIsSearching] = useState(false)
   // this is username variable to search for
   const [username, setUsername] = useState('')
-  // this is for suggested words for search
-  var suggestions;
-  
 
    /**
     * this effect is used for setting search suggestions
@@ -30,18 +27,11 @@ export default function App() {
     * and parse again to json when we retrieve them to application
     */
   useEffect(() => {
-    if (sessionStorage.getItem('suggestions')){
-      // if we have something in sessionStorage set it to the suggestions
-      suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
-      console.log("suggestions " ,suggestions)
-
-    } else {
+    if (!sessionStorage.getItem('suggestions')){
       // if it is first time when tab is open assign empty object to suggestions
       // and save it in sessionStorage
-      suggestions = {}
-      sessionStorage.setItem('suggestions', JSON.stringify(suggestions))
-      console.log("there are some soggestions in session", suggestions)
-    }
+      sessionStorage.setItem('suggestions', JSON.stringify({}))
+    } 
   }, [])
   
   
@@ -56,7 +46,7 @@ export default function App() {
       setIsSearching(true) // redirects to the /:username page
 
       // save suggestions in sessionStorage
-      suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+     let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
       suggestions[username] = username
       sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
       
@@ -82,7 +72,6 @@ export default function App() {
             <Home 
                 handleUserInput={handleUserInput}
                 handleSubmit={handleSubmit}
-                suggestions={suggestions}
                 username={username}
                 />
           </Route>
