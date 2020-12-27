@@ -33,15 +33,18 @@ export default function App() {
     if (sessionStorage.getItem('suggestions')){
       // if we have something in sessionStorage set it to the suggestions
       suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+      console.log("suggestions " ,suggestions)
+
     } else {
       // if it is first time when tab is open assign empty object to suggestions
       // and save it in sessionStorage
       suggestions = {}
       sessionStorage.setItem('suggestions', JSON.stringify(suggestions))
+      console.log("there are some soggestions in session", suggestions)
     }
   }, [])
   
-    
+  
     // to handle input user field on change
     const handleUserInput = (e) => {
       setUsername(e.target.value)

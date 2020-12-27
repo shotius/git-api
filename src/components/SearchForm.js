@@ -1,9 +1,14 @@
 const  SearchForm = ({ handleSubmit, handleUserInput, username }) => {
     var suggestionsToShow = [];
-    
-    // get suggestions from sessionStorage and take only keys
-    let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
-    suggestions = Object.keys(suggestions)
+    var suggestions = []
+
+    // get suggestions from sessionStorage (if they exist) and take only keys
+    if (sessionStorage.getItem("suggestions")){
+        
+            suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+            suggestions = Object.keys(suggestions)
+
+    }
 
     // if something is typed in search bar suggestions will appear
     if (username.length){

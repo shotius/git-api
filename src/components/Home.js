@@ -10,7 +10,7 @@ import SearchForm from './SearchForm'
 
 // this mini library is for github rest api to raise up rate limit
 const { Octokit } = require("@octokit/core");
-const octokit = new Octokit({auth: 'cf4170311f48280175a0e71ae7d3747f18e881f5'});
+const octokit = new Octokit({auth: `${process.env.REACT_APP_TOKEN}`});
 
 //console.log(process.env.TOKEN)
 
