@@ -1,5 +1,18 @@
-function UserPage ({setIsSearching, setUsername}) {
-    
+import {useEffect} from 'react'
+
+function UserPage ({setIsSearching, setUsername, username, octokit}) {
+  // useEffect(() => {
+  //   // octokit
+  //   //   .request(`GET https://api.github.com/users${window.location.pathname}`)
+  //   //   .then(result => {
+  //   //     console.log(result.data)
+  //   //   })
+  // }, [])
+
+
+console.log(window.location.pathname)
+
+    // button handler that takes back to the home page
     const handleBack = (e) => {
       e.preventDefault();
       setIsSearching(false)
@@ -8,11 +21,10 @@ function UserPage ({setIsSearching, setUsername}) {
 
     return (
       <div>
-        <h2>I cant believe I am on 'user' page</h2>
+        {username}
             <button 
                 type="submit" 
-                onClick={handleBack} 
-                >
+                onClick={handleBack}>
                   Home
             </button>
       </div>

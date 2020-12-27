@@ -14,6 +14,10 @@ import {
 import Home from './components/Home'
 import UserPage from './components/UserPage'
 
+const { Octokit } = require("@octokit/core");
+const octokit = new Octokit({auth: `${process.env.REACT_APP_TOKEN}`});
+
+
 export default function App() {
   // this boolean variable if true browser redirects to the /:username page
   const [isSearching, setIsSearching] = useState(false)
@@ -21,15 +25,14 @@ export default function App() {
   const [username, setUsername] = useState('')
 
    /**
-    * this effect is used for setting search suggestions
+    * this effect is used for setting searched suggestions
     * it is executed once when page loads.
     * since sessionStorage supports only strings we stringify our suggestions while saving in
-    * and parse again to json when we retrieve them to application
+    * and parse again to json when we retrieve them to the application
     */
   useEffect(() => {
+    // on the first load, if sessionStorage doesn't have suggestions
     if (!sessionStorage.getItem('suggestions')){
-      // if it is first time when tab is open assign empty object to suggestions
-      // and save it in sessionStorage
       sessionStorage.setItem('suggestions', JSON.stringify({}))
     } 
   }, [])
@@ -45,34 +48,39 @@ export default function App() {
       e.preventDefault();
       setIsSearching(true) // redirects to the /:username page
 
-      // save suggestions in sessionStorage
-     let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+      // save new suggestion in sessionStorage
+      let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
       suggestions[username] = username
       sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
       
-  } 
+    }
+    
   
   return (
     <Router>
 
         {/* if search button is clicked, we redirect to the the page where is displayed user info */}
-        {isSearching ? <Redirect to={`/${username}`}/> : <Redirect to="/" />}
+        {/* {isSearching ? <Redirect to={`/${username}`}/> : <Redirect to="/" />} */}
         
       {/*we got two routes
         '/'  - route is renders <Home/> component
         '/:username' - route randers <UserPage/> component*/}
         <Switch>
-          <Route exact path="/:username">
+          <Route path="/:username">
             <UserPage 
                 setIsSearching={setIsSearching}
                 setUsername={setUsername}
+                username={username}
+                octokit={octokit}
                 />
           </Route>
-          <Route exact path="/">
+          <Route path="/">
             <Home 
                 handleUserInput={handleUserInput}
                 handleSubmit={handleSubmit}
                 username={username}
+                octokit={octokit}
+                isSearching={isSearching}
                 />
           </Route>
         </Switch>

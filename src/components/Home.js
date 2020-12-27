@@ -1,21 +1,17 @@
 /**
  * this page is home page where are displayed the most popular users of github
- * each user has is rendered by the component "UserCard" 
+ * each user is rendered by the component "UserCard" 
  * for fetching api is used "Octokit" mini library 
  */
 
 import {useEffect, useState} from 'react'
 import UserCard from './UserCard'
 import SearchForm from './SearchForm'
+import { Redirect } from "react-router-dom";
 
-// this mini library is for github rest api to raise up rate limit
-const { Octokit } = require("@octokit/core");
-const octokit = new Octokit({auth: `${process.env.REACT_APP_TOKEN}`});
-
-//console.log(process.env.TOKEN)
 
 // main export function
-const  Home = ({ handleSubmit, handleUserInput, username }) => {
+const  Home = ({ handleSubmit, handleUserInput, username, octokit, isSearching }) => {
     const [selebrities, setSelebrities] = useState([])
 
     // fetch data of the most popular users on github 
@@ -33,6 +29,12 @@ const  Home = ({ handleSubmit, handleUserInput, username }) => {
             .catch(err => console.log(err.message))
     }, [])
 
+    if (isSearching) {
+        return <Redirect push to={{
+          pathname: '/result',
+        }}
+        />
+      } 
     return (
         <div>
           {/* user search form  */}
@@ -47,11 +49,11 @@ const  Home = ({ handleSubmit, handleUserInput, username }) => {
             {
                 selebrities.map(
                   user => 
-                          <UserCard 
-                              key={user.id}
-                              user={user}
-                              octokit={octokit}
-                          />
+                        <UserCard 
+                            key={user.id}
+                            user={user}
+                            octokit={octokit}
+                        />
             )}
           </div>
         </div>
