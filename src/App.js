@@ -20,42 +20,43 @@ export default function App() {
   // this is username variable to search for
   const [username, setUsername] = useState('')
   // this is for suggested words for search
-  const [suggestions, setSuggestions] = useState([])
+  var suggestions;
   
-  var val;
 
+   /**
+    * this effect is used for setting search suggestions
+    * it is executed once when page loads.
+    * since sessionStorage supports only strings we stringify our suggestions while saving in
+    * and parse again to json when we retrieve them to application
+    */
   useEffect(() => {
-    if (!sessionStorage.getItem('someVar')){
-      val = 1
-      console.log("first set val")
-      sessionStorage.setItem("someVar", val);
+    if (sessionStorage.getItem('suggestions')){
+      // if we have something in sessionStorage set it to the suggestions
+      suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
     } else {
-      val = sessionStorage.getItem('someVar')
-      console.log("first get value", val)
+      // if it is first time when tab is open assign empty object to suggestions
+      // and save it in sessionStorage
+      suggestions = {}
+      sessionStorage.setItem('suggestions', JSON.stringify(suggestions))
     }
-    
   }, [])
   
-  
-    console.log("second get value", sessionStorage.getItem('someVar'))
     
-    // this is for input field change
+    // to handle input user field on change
     const handleUserInput = (e) => {
       setUsername(e.target.value)
-
-      
-      val = sessionStorage.getItem('someVar')
-      val ++
-      sessionStorage.setItem("someVar", val);
-      console.log("setting value ", val)
     }
     
     // this is for search button submission
     const handleSubmit = (e) => {
       e.preventDefault();
-      setIsSearching(true)
-      setSuggestions(suggestions.concat(username))
-  
+      setIsSearching(true) // redirects to the /:username page
+
+      // save suggestions in sessionStorage
+      suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+      suggestions[username] = username
+      sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
+      
   } 
   
   return (
@@ -63,7 +64,6 @@ export default function App() {
 
         {/* if search button is clicked, we redirect to the the page where is displayed user info */}
         {isSearching ? <Redirect to={`/${username}`}/> : <Redirect to="/" />}
-
         
       {/*we got two routes
         '/'  - route is renders <Home/> component

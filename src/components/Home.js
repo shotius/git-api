@@ -10,16 +10,13 @@ import SearchForm from './SearchForm'
 
 // this mini library is for github rest api to raise up rate limit
 const { Octokit } = require("@octokit/core");
-const octokit = new Octokit({auth: `1cffaf3118107ba2b07bd0ef60fef878be318461`});
+const octokit = new Octokit({auth: 'cf4170311f48280175a0e71ae7d3747f18e881f5'});
 
 //console.log(process.env.TOKEN)
 
 // main export function
 const  Home = ({ handleSubmit, handleUserInput, suggestions, username }) => {
     const [selebrities, setSelebrities] = useState([])
-
-
-    
 
     // fetch data of the most popular users on github 
     // only once - on first render

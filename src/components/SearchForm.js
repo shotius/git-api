@@ -1,6 +1,10 @@
-const  SearchForm = ({ handleSubmit, handleUserInput, suggestions, username }) => {
+const  SearchForm = ({ handleSubmit, handleUserInput, username }) => {
     var suggestionsToShow = [];
-   
+    
+    // get suggestions from sessionStorage and take only keys
+    let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+    suggestions = Object.keys(suggestions)
+
     // if something is typed in search bar suggestions will appear
     if (username.length){
         suggestionsToShow = suggestions.filter(suggestion => 
@@ -13,7 +17,7 @@ const  SearchForm = ({ handleSubmit, handleUserInput, suggestions, username }) =
                 <input onChange={handleUserInput} />
                 <button id='btnUserSearch' type="submit">Search User</button>
                {
-                   suggestionsToShow.map((sugg, i) => <li key={i}>{sugg}</li>)
+                   suggestionsToShow.map((sugg, i) => <li key={i} className="suggestion">{sugg}</li>)
                }
             </form>
         </>
