@@ -11,12 +11,28 @@ import { Redirect } from "react-router-dom";
 
 
 // main export function
-const  Home = ({ handleSubmit, handleUserInput, username, octokit, isSearching }) => {
+const  Home = ({ username,setUsername, octokit }) => {
+    // variable for famous users who are displayd on home page
     const [selebrities, setSelebrities] = useState([])
+    // this boolean variable if true browser redirects to the /:username page
+    const [isSearching, setIsSearching] = useState(false)
 
-    // fetch data of the most popular users on github 
-    // only once - on first render
+
+    /**on the first load */
+    
     useEffect(() => {
+   
+       /** on the first load if sessionStorage doesn't have suggestions 
+         * we assign it it as an empty object
+         * since sessionStorage supports only strings we stringify our suggestions while saving in
+         * and parse again to json when we retrieve them to the application
+         * on the first load, if sessionStorage doesn't have suggestions
+         */
+        if (!sessionStorage.getItem('suggestions')){
+            sessionStorage.setItem('suggestions', JSON.stringify({}))
+        } 
+
+        /**  fetch data of the most popular users on github */
         // users who have more than 300 repos and more than 5000 followers    
         const url = "https://api.github.com/search/users?q=repos:%3E300+followers:%3E5000"
         octokit
@@ -29,12 +45,35 @@ const  Home = ({ handleSubmit, handleUserInput, username, octokit, isSearching }
             .catch(err => console.log(err.message))
     }, [])
 
+
+    // to handle input user field on change
+    const handleUserInput = (e) => {
+        setUsername(e.target.value)
+      }
+      
+
+    // this is for search button submission
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsSearching(true) // redirects to the /:username page
+    
+        // save new suggestion in sessionStorage
+        let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+        suggestions[username] = username
+        sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
+        
+    }
+      
+
+    // since on submit form page rerenders 
+    // this function will redirect user to the /:username route
     if (isSearching) {
         return <Redirect push to={{
-          pathname: '/result',
+          pathname: `/${username}`,
         }}
         />
       } 
+
     return (
         <div>
           {/* user search form  */}
