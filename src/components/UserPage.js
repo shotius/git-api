@@ -3,8 +3,7 @@ import {Redirect} from "react-router-dom"
 import UserInfo from './UserInfo'
 
 function UserPage ({ setUsername, octokit})  {
-  const [organizations, setOrganizations] = useState([]) // {name: [], avatar: '', url: ''}
-  const [organizationAvatar, setOrganizationAvatar] = useState('')
+  const [organizations, setOrganizations] = useState([]) // {name: [], avatar: ''}
   const [backToHome, setBackToHome] = useState(false)
   const [error , setError] = useState('no error')
   const [userType, setUserType] = useState('')
@@ -12,6 +11,8 @@ function UserPage ({ setUsername, octokit})  {
   const [avatar, setAvatar] = useState('')
   const [repos, setRepos] = useState([])
   const [name, setName] = useState('')
+
+  const [userInfo, setUserInfo] = useState({})
 
   function fire404Handler  () {
     setError("**Not Found**")
@@ -64,8 +65,8 @@ function UserPage ({ setUsername, octokit})  {
 
   //console.log(organizations.length)
   const getOrganizationInfo = (organizationsData) => {
-   // console.log(organizationsData)
-    var orgInfo = []
+    let orgInfo = []
+    // loop through all organization data and create new object each time
     organizationsData.map(org => {
       const newOrgInfo = {
         name: org.login,
@@ -73,7 +74,8 @@ function UserPage ({ setUsername, octokit})  {
       }
       orgInfo = orgInfo.concat(newOrgInfo)
     })
-    console.log(orgInfo)
+    // when creating new array with all organizations
+    // set this array to the 'organizations' state
     setOrganizations(orgInfo)
   }
 
@@ -83,6 +85,14 @@ function UserPage ({ setUsername, octokit})  {
       setName(obj.login)
       setGitPage(obj.html_url)
       setUserType(obj.type)
+
+      let userInfo = {
+        name: obj.login,
+        avatar: obj.avatar_url,
+        gitPage: obj.html_url,
+        type: obj.type
+      }
+      setUserInfo(userInfo)
   }
 
     // since on submit form page rerenders 
@@ -125,6 +135,8 @@ function UserPage ({ setUsername, octokit})  {
                   avatar={avatar}
                   repos={repos}
                   name={name}
+
+                  userInfo={userInfo}
                 />
             
           }  

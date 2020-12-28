@@ -1,4 +1,5 @@
-const UserInfo = ({avatar, gitPage, name, userType, repos, organizations}) => {
+const UserInfo = ({avatar, gitPage, name, userType, repos, organizations, userInfo}) => {
+    const {name, avatar, gitPage, type } = userInfo
     return (
       <>
         <img src={avatar} alt="user avatar" id="userAvatar"/>
