@@ -3,13 +3,15 @@ import {Redirect} from "react-router-dom"
 import UserInfo from './UserInfo'
 
 function UserPage ({ setUsername, octokit})  {
+  const [organizations, setOrganizations] = useState([]) // {name: [], avatar: '', url: ''}
+  const [organizationAvatar, setOrganizationAvatar] = useState('')
   const [backToHome, setBackToHome] = useState(false)
+  const [error , setError] = useState('no error')
   const [userType, setUserType] = useState('')
   const [gitPage, setGitPage] = useState('')
   const [avatar, setAvatar] = useState('')
   const [repos, setRepos] = useState([])
   const [name, setName] = useState('')
-  const [error , setError] = useState('no error')
 
   function fire404Handler  () {
     setError("**Not Found**")
@@ -31,10 +33,24 @@ function UserPage ({ setUsername, octokit})  {
               (result) =>{
                 if (result.data.length > 0){
                   setRepos(result.data.slice(0,3))
-              } else {
-                setRepos(['no repos'])
               }
             })
+            .catch(err => console.log(err))
+
+            // fetch organizations
+            octokit
+              .request(`GET ${result.data.organizations_url}`)
+              .then(
+                (result) => {
+                  // console.log(result.data)
+                  if (result.data.length){
+                    // if user is in some organizations get info about them
+                    getOrganizationInfo(result.data)
+
+                  }
+              })
+              .catch(err => console.log(err))
+
       })
       .catch( (err) => {
         // if user not found we set error to the **Not Found**
@@ -45,6 +61,21 @@ function UserPage ({ setUsername, octokit})  {
         }
       })
   }, [])
+
+  //console.log(organizations.length)
+  const getOrganizationInfo = (organizationsData) => {
+   // console.log(organizationsData)
+    var orgInfo = []
+    organizationsData.map(org => {
+      const newOrgInfo = {
+        name: org.login,
+        avatar: org.avatar_url
+      }
+      orgInfo = orgInfo.concat(newOrgInfo)
+    })
+    console.log(orgInfo)
+    setOrganizations(orgInfo)
+  }
 
   // set all state after fetching api
   const setStates = (obj) => {
@@ -88,11 +119,12 @@ function UserPage ({ setUsername, octokit})  {
             : name.length === 0 
             ? <p>fetching...</p>
             : <UserInfo 
-                  avatar={avatar}
-                  gitPage={gitPage}
-                  name={name}
+                  organizations={organizations}
                   userType={userType}
+                  gitPage={gitPage}
+                  avatar={avatar}
                   repos={repos}
+                  name={name}
                 />
             
           }  

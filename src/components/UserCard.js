@@ -19,9 +19,7 @@ function UserCard ({user, octokit}) {
                 
                 if (result.data.length > 0){
                     setRepos(result.data.slice(0,3))
-                } else {
-                    setRepos(['no repos'])
-                }
+                } 
             })
     }, [])
     
@@ -42,10 +40,13 @@ function UserCard ({user, octokit}) {
 
             <ul className="repos_list">
             {
-                repos.map((repo, i) => 
-                    <li key={i}>{repo.name ||  "no repo for this user"}</li>
+                repos.length
+                ?repos.map((repo, i) => 
+                    <li key={i}>{repo.name}</li>
                 )
+                : <p>no repo for this user</p>
             }
+            {repos.length}
             </ul>
         </div>
     )
