@@ -12,8 +12,6 @@ function UserPage ({ setUsername, octokit})  {
   const [repos, setRepos] = useState([])
   const [name, setName] = useState('')
 
-  const [userInfo, setUserInfo] = useState({})
-
   function fire404Handler  () {
     setError("**Not Found**")
   }
@@ -86,13 +84,6 @@ function UserPage ({ setUsername, octokit})  {
       setGitPage(obj.html_url)
       setUserType(obj.type)
 
-      let userInfo = {
-        name: obj.login,
-        avatar: obj.avatar_url,
-        gitPage: obj.html_url,
-        type: obj.type
-      }
-      setUserInfo(userInfo)
   }
 
     // since on submit form page rerenders 
@@ -135,8 +126,6 @@ function UserPage ({ setUsername, octokit})  {
                   avatar={avatar}
                   repos={repos}
                   name={name}
-
-                  userInfo={userInfo}
                 />
             
           }  
