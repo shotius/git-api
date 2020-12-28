@@ -50,6 +50,10 @@ const  Home = ({ username,setUsername, octokit }) => {
     const handleUserInput = (e) => {
         setUsername(e.target.value)
       }
+
+    const handleSelect = (val) => {
+      setUsername(val)
+    }
       
 
     // this is for search button submission
@@ -78,8 +82,9 @@ const  Home = ({ username,setUsername, octokit }) => {
         <div>
           {/* user search form  */}
           <SearchForm 
-                handleSubmit={handleSubmit}
                 handleUserInput={handleUserInput}
+                handleSelect={handleSelect}
+                handleSubmit={handleSubmit}
                 username={username}
                 />
 

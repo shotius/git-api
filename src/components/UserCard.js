@@ -46,7 +46,6 @@ function UserCard ({user, octokit}) {
                 )
                 : <p>no repo for this user</p>
             }
-            {repos.length}
             </ul>
         </div>
     )

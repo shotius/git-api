@@ -1,3 +1,4 @@
+
 const UserInfo = ({avatar, gitPage, name, userType, repos, organizations}) => {
     return (
       <>
