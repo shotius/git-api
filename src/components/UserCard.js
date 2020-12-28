@@ -16,10 +16,11 @@ function UserCard ({user, octokit}) {
         octokit
             .request(`GET ${user.repos_url}`)
             .then(result => {
+                
                 if (result.data.length > 0){
                     setRepos(result.data.slice(0,3))
                 } else {
-
+                    setRepos(['no repos'])
                 }
             })
     }, [])
