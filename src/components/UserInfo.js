@@ -9,7 +9,7 @@ const UserInfo = ({avatar, gitPage, name, userType, repos, organizations}) => {
           <strong>repos: </strong>
           <ul>
             { 
-            // loop through user repositoris and display then in a list
+            // loop through user repositoris and display them in a list
               repos.length
                 ? repos.map((repo, i) => <li key={i}>{repo.full_name}</li>)
                 : <p>no repositoris for this user</p>

@@ -16,9 +16,13 @@ const  Home = ({ username,setUsername, octokit }) => {
     const [selebrities, setSelebrities] = useState([])
     // this boolean variable if true browser redirects to the /:username page
     const [isSearching, setIsSearching] = useState(false)
+    // variable for switching list and grid view
+    const [isListView, setIsListView] = useState(true)
+    // variable for toggling list and grid style button text
+    const [toggleBtn, setToggleBtn] = useState("grid")
 
 
-    /**on the first load */
+  /**on the first load */
     
     useEffect(() => {
    
@@ -46,11 +50,15 @@ const  Home = ({ username,setUsername, octokit }) => {
     }, [])
 
 
-    // to handle input user field on change
-    const handleUserInput = (e) => {
-        setUsername(e.target.value)
+/** handle functions */
+
+    // to handle input user field on change (on each letter)
+    const handleUserInput = (val) => {
+        setUsername(val)
+        
       }
 
+    // this method is used for search form for selecting suggesntions
     const handleSelect = (val) => {
       setUsername(val)
     }
@@ -67,6 +75,17 @@ const  Home = ({ username,setUsername, octokit }) => {
         sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
         
     }
+
+      // handles toggling between styles, on button click
+      const handleToggle = () => {
+        if (isListView){
+          setIsListView(false)
+          setToggleBtn("grid");
+        } else {
+          setIsListView(true)
+          setToggleBtn("list")
+        }
+      }
       
 
     // since on submit form page rerenders 
@@ -80,26 +99,48 @@ const  Home = ({ username,setUsername, octokit }) => {
 
     return (
         <div>
-          {/* user search form  */}
-          <SearchForm 
-                handleUserInput={handleUserInput}
-                handleSelect={handleSelect}
-                handleSubmit={handleSubmit}
-                username={username}
-                />
+          <div id="divSearchForm">
+            {/* user search form  */}
+            <SearchForm 
+                  handleUserInput={handleUserInput}
+                  handleSelect={handleSelect}
+                  handleSubmit={handleSubmit}
+                  username={username}
+                  />
 
-        {/* famous user are displayed here */}
-          <div id="famousUsers">
-            {
-                selebrities.map(
-                  user => 
-                        <UserCard 
-                            key={user.id}
-                            user={user}
-                            octokit={octokit}
-                        />
-            )}
           </div>
+          
+          {/* here is toggle button between List and Grid styles */}
+         <div id="container">
+            <h2 className="title">Selebrities On GitHub</h2>
+            <button id="toggleBtn" onClick={handleToggle}>{toggleBtn}</button>
+              {
+                isListView
+                ?
+                (
+                  // famous user are displayed here in list style
+                  <div id="famousUsersList">
+                        {
+                          selebrities.map(
+                            user => 
+                                  <UserCard 
+                                      key={user.id}
+                                      user={user}
+                                      octokit={octokit}
+                                  />
+                            )
+                        }
+                      </div>
+                    )
+                  : 
+                  (
+                    // famous user in Grid style
+                    <div id="famousUsersGrid">
+                      <p>grid style</p>
+                    </div>
+                  )
+              }
+            </div>
         </div>
     )
 }

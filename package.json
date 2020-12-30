@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@octokit/core": "^3.2.4",
     "react": "^17.0.1",
     "react-autocomplete": "^1.8.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
+    "rsuite": "^4.8.6",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
