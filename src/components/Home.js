@@ -11,7 +11,7 @@ import { Redirect } from "react-router-dom";
 
 import list from './icons/list.svg'
 import grid from './icons/grid.svg'
-import btnActiveStyle from './btnStyle'
+import btnActiveStyle from './TogglingBtnStyle'
 
 // main export function
 const  Home = ({ username,setUsername, octokit }) => {
