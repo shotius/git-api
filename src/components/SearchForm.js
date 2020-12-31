@@ -32,8 +32,11 @@ const  SearchForm = ({ handleSubmit, handleUserInput, username, handleSelect}) =
                     <Autocomplete
                         id="search"
                         options={suggestionsToShow}
-                        //onChange={(e, value) => console.log(value)}
-                        inputValue={username}
+                        onChange={(event, newValue) => {
+                            console.log("in")
+                            //handleUserInput(newValue);
+                          }}
+                          inputValue={username}
                         renderInput={(params) => (
                             <div ref={params.InputProps.ref}>
                             <input 
@@ -42,12 +45,12 @@ const  SearchForm = ({ handleSubmit, handleUserInput, username, handleSelect}) =
                                     width: 250,
                                     fontSize: 20,
                                     padding: 3
-                                }} type="text" {...params.inputProps} onChange={({ target }) => handleUserInput(target.value)}/>
+                                }} type="text" {...params.inputProps} onChange={({target}) => handleUserInput(target.value)}/>
                             </div>
                         )}
-                        //onSelect={handleSelect}
                         />
                 <button id='btnUserSearch' type="submit">Search</button>
+
             </form>
         </>
     )

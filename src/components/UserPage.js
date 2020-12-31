@@ -1,3 +1,9 @@
+/**this module is responsible to find desired user,
+ * get informations, sach are avataer, type, repositories, organizations...
+ * for fething information is used mini library "octokit"
+ */
+
+
 import {useEffect, useState} from 'react'
 import {Redirect} from "react-router-dom"
 import UserInfo from './UserInfo'
@@ -51,9 +57,11 @@ function UserPage ({ setUsername, octokit})  {
               .catch(err => console.log(err))
 
       })
+      // catching errors if user not found
       .catch( (err) => {
         // if user not found we set error to the **Not Found**
         if (err.status === 404){
+          // this function is responsible for setting error variable to "**Not Found**" string
           fire404Handler()
         } else {
           console.log(err.message)
@@ -61,7 +69,9 @@ function UserPage ({ setUsername, octokit})  {
       })
   }, [])
 
-  //console.log(organizations.length)
+
+  // is executed when organization info about user is fetched
+  // organizations are saved in a variable
   const getOrganizationInfo = (organizationsData) => {
     let orgInfo = []
     // loop through all organization data and create new object each time
@@ -102,12 +112,10 @@ function UserPage ({ setUsername, octokit})  {
 
     return (
       <div>
-            <button 
-                type="submit" 
-                onClick={handleBack}>
-                  back to search
-            </button>
+          <button id="btnHome"  type="submit" onClick={handleBack}> back to search </button>
+        
           <br/>
+        
         <div>
           {
             /**firstly we check if user is not found

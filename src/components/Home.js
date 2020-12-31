@@ -9,6 +9,8 @@ import UserCard from './UserCard'
 import SearchForm from './SearchForm'
 import { Redirect } from "react-router-dom";
 
+import list from './icons/list.svg'
+import grid from './icons/grid.svg'
 
 // main export function
 const  Home = ({ username,setUsername, octokit }) => {
@@ -17,10 +19,17 @@ const  Home = ({ username,setUsername, octokit }) => {
     // this boolean variable if true browser redirects to the /:username page
     const [isSearching, setIsSearching] = useState(false)
     // variable for switching list and grid view
-    const [isListView, setIsListView] = useState(true)
-    // variable for toggling list and grid style button text
-    const [toggleBtn, setToggleBtn] = useState("grid")
+    
 
+    // variables for toggling list and grid style button text
+    const [visualType, setVisualType] = useState('list')
+    const [btnListStyle, setBtnListStyle] = useState({})
+    const [btnGridStyle, setBrnGridStyle] = useState({})
+
+    const btnStyle = {
+      "backgroundColor": "gray",
+      "border": "none"
+    }
 
   /**on the first load */
     
@@ -54,43 +63,45 @@ const  Home = ({ username,setUsername, octokit }) => {
 
     // to handle input user field on change (on each letter)
     const handleUserInput = (val) => {
+        console.log("input")
         setUsername(val)
         
       }
-
-    // this method is used for search form for selecting suggesntions
-    const handleSelect = (val) => {
-      setUsername(val)
-    }
       
 
     // this is for search button submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsSearching(true) // redirects to the /:username page
-    
-        // save new suggestion in sessionStorage
-        let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
-        suggestions[username] = username
-        sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
-        
+
+        // if search bar is empty search button will not work
+        if (username !== ''){
+          setIsSearching(true) // redirects to the /:username page
+      
+          // save new suggestion in sessionStorage
+          let suggestions = JSON.parse(sessionStorage.getItem('suggestions'))
+          suggestions[username] = username
+          sessionStorage.setItem('suggestions',JSON.stringify(suggestions))
+        }
     }
 
-      // handles toggling between styles, on button click
-      const handleToggle = () => {
-        if (isListView){
-          setIsListView(false)
-          setToggleBtn("grid");
-        } else {
-          setIsListView(true)
-          setToggleBtn("list")
-        }
-      }
-      
+    // handle clicking on list icon (switch to list view)
+    const toggleToList = (e) => {
+        setVisualType('list')
+        setBtnListStyle(btnStyle)
+        setBrnGridStyle({})
+    }
+
+    // handle clicking on grid icon (switching on grid view)
+    const toggleToGrid = (e) => {
+      setVisualType('grid')
+      setBtnListStyle({})
+      setBrnGridStyle(btnStyle)
+    }
 
     // since on submit form page rerenders 
     // this function will redirect user to the /:username route
     if (isSearching) {
+
         return <Redirect push to={{
           pathname: `/${username}`,
         }}
@@ -103,44 +114,52 @@ const  Home = ({ username,setUsername, octokit }) => {
             {/* user search form  */}
             <SearchForm 
                   handleUserInput={handleUserInput}
-                  handleSelect={handleSelect}
                   handleSubmit={handleSubmit}
                   username={username}
                   />
-
           </div>
           
-          {/* here is toggle button between List and Grid styles */}
-         <div id="container">
             <h2 className="title">Selebrities On GitHub</h2>
-            <button id="toggleBtn" onClick={handleToggle}>{toggleBtn}</button>
+
+            {/* buttons for toggling between list and grid styles */}
+           <div id="toggleButtons">
+            <button id="btnList" style={btnListStyle} onClick={toggleToList}><img src={list}/></button>
+            <button id="btnGrid" style={btnGridStyle} onClick={toggleToGrid}><img src={grid}/></button>
+           </div>
+
+
+            {/* depending on toggled button famouse users will be displayed either list or grid style */}
               {
-                isListView
+                visualType === 'list'
                 ?
-                (
-                  // famous user are displayed here in list style
-                  <div id="famousUsersList">
-                        {
-                          selebrities.map(
-                            user => 
-                                  <UserCard 
-                                      key={user.id}
-                                      user={user}
-                                      octokit={octokit}
-                                  />
-                            )
-                        }
-                      </div>
-                    )
-                  : 
-                  (
-                    // famous user in Grid style
-                    <div id="famousUsersGrid">
-                      <p>grid style</p>
+                    // famous user are displayed here in list style
+                    <div id="famousUsersListView">
+                            {
+                              selebrities.map(user => 
+                                      <UserCard 
+                                          key={user.id}
+                                          user={user}
+                                          octokit={octokit}
+                                          view="ListView"
+                                      />)
+                            }
                     </div>
-                  )
+                    
+                  : 
+                      // famous user in Grid style
+                      <div id="famousUsersGridView">
+                          {
+                            selebrities.map(user => 
+                              <UserCard 
+                                    key={user.id}
+                                    user={user}
+                                    octokit={octokit}
+                                    view="GridView"
+                                />)
+                          }  
+                    </div>
+                    
               }
-            </div>
         </div>
     )
 }

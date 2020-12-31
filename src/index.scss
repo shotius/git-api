@@ -1,0 +1,120 @@
+
+/* search part */
+#searchForm {
+    display: flex;
+    margin: auto;
+    margin-top: 50px;
+    width: 350px;
+}
+
+#header {
+    margin-top: 30px;
+}
+
+#btnUserSearch {
+    margin-left: 10px;
+    padding: 3px;
+}
+#divSearchForm{
+    height: 250px;
+    text-align: center
+}
+#toggleButtons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* famous users part */
+
+// list view of users in mobile first CSS
+.ListView {
+    margin: 5px 0;
+    padding: 5px;
+    background: lightblue;
+    border: solid 1px black;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    // set avatar div and img in mobile first 
+    .divSelebrityAvatar {
+        width: 100%;
+        .imgFamousUser {
+            width: 100%;
+        }
+    }
+
+    // text information of the user
+    .divSelebrityTextInfo {
+        margin-left: 4%;
+    }
+
+    @media (min-width: 500px) {
+        // when display become bigger 
+        //set immage and user card container static size
+        flex-direction: row;    
+        height: 200px;
+        
+        .divSelebrityAvatar {
+            width: 200px;
+        }
+        
+        .imgFamousUser {
+            width: 180px;
+            margin: 10px;
+        }
+
+        .divSelebrityTextInfo {
+            margin-left: 30px;
+        }
+
+        // set margins to text info
+        // to emphasys information
+        .divSelebrityRepos {
+            margin: 10px 0 ;
+        }
+        .divSelebrityType {
+            margin: 10px 0 ;
+        }
+        .divSelebrityName {
+            margin: 10px 0 ;
+        }
+        
+     }
+}
+
+/*  set style for grid view */
+
+// user card patter will be permanent during view port changing
+.GridView {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+    border: solid 1px black;
+    padding: 4%;
+    margin: 5px;
+}
+
+// parent div that contains all userCards
+#famousUsersGridView {
+    .divSelebrityAvatar {
+        width: 100%;
+        .imgFamousUser {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 450px) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: 750px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    @media (min-width: 1000px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
