@@ -2,7 +2,7 @@
 ## usage
 1. Clone this project on local machine <br>
    `git clone 	https://github.com/shotius/git-api.git` <br>
-   `cd git-clone`<br>
+   `cd git-api`<br>
 2. In order to run app you need to create your own **Personal Access Token** <br>
    (Instuctions to create your personal acces token is  [here](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token))
 3. Create **.env** file in the root directory
