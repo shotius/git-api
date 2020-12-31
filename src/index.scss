@@ -6,7 +6,6 @@
     margin-top: 50px;
     width: 350px;
 }
-
 #header {
     margin-top: 30px;
 }
@@ -17,6 +16,9 @@
 }
 #divSearchForm{
     height: 250px;
+    text-align: center
+}
+#selebrityHeader {
     text-align: center
 }
 #toggleButtons {
@@ -41,7 +43,7 @@
 .ListView {
     margin: 5px 0;
     padding: 5px;
-    background: lightgrey;
+    background: #2e8481;
     border: solid 1px black;
     display: flex;
     flex-direction: column;
@@ -99,7 +101,7 @@
 .GridView {
     display: flex;
     flex-direction: column;
-    background-color: lightgrey;
+    background-color: #2e8481;
     border: solid 1px black;
     padding: 4%;
     margin: 5px;

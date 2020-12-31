@@ -11,6 +11,7 @@ import { Redirect } from "react-router-dom";
 
 import list from './icons/list.svg'
 import grid from './icons/grid.svg'
+import btnActiveStyle from './btnStyle'
 
 // main export function
 const  Home = ({ username,setUsername, octokit }) => {
@@ -18,37 +19,17 @@ const  Home = ({ username,setUsername, octokit }) => {
     const [selebrities, setSelebrities] = useState([])
     // this boolean variable if true browser redirects to the /:username page
     const [isSearching, setIsSearching] = useState(false)
-    // variable for switching list and grid view
     
 
-    // variables for toggling list and grid style button text
+    // variables for toggling list and grid styles
     const [visualType, setVisualType] = useState('list')
-    const [btnListStyle, setBtnListStyle] = useState({})
+    const [btnListStyle, setBtnListStyle] = useState(btnActiveStyle)
     const [btnGridStyle, setBrnGridStyle] = useState({})
 
-    const btnActiveStyle = {
-      "color": "white",
-      "background": "#a3a4a5",
-      "border": "none",
-      "padding": "5px",
-      "cursor": "pointer",
-      "outline": "inherit"
-      
-    }
-
-    // const brnPassiveStyle = {
-    //   "color": "inherit",
-    //   "background": "none",
-    //   "border": "none",
-    //   "padding": "5px",
-    //   "cursor": "pointer",
-    //   "outline": "inherit"
-    // }
 
   /**on the first load */
     
     useEffect(() => {
-   
        /** on the first load if sessionStorage doesn't have suggestions 
          * we assign it it as an empty object
          * since sessionStorage supports only strings we stringify our suggestions while saving in
@@ -73,7 +54,7 @@ const  Home = ({ username,setUsername, octokit }) => {
     }, [])
 
 
-/** handle functions */
+/** user actions handlers */
 
     // to handle input user field on change (on each letter)
     const handleUserInput = (val) => {
@@ -115,17 +96,17 @@ const  Home = ({ username,setUsername, octokit }) => {
     // since on submit form page rerenders 
     // this function will redirect user to the /:username route
     if (isSearching) {
-
         return <Redirect push to={{
           pathname: `/${username}`,
         }}
         />
       } 
 
+
     return (
-        <div>
+        <>
+          {/* user search form  */}
           <div id="divSearchForm">
-            {/* user search form  */}
             <SearchForm 
                   handleUserInput={handleUserInput}
                   handleSubmit={handleSubmit}
@@ -133,7 +114,8 @@ const  Home = ({ username,setUsername, octokit }) => {
                   />
           </div>
           
-            <h2 className="title">Selebrities On GitHub</h2>
+          
+            <h2 id="selebrityHeader">Selebrities On GitHub</h2>
 
             {/* buttons for toggling between list and grid styles */}
            <div id="toggleButtons">
@@ -142,7 +124,7 @@ const  Home = ({ username,setUsername, octokit }) => {
            </div>
 
 
-            {/* depending on toggled button famouse users will be displayed either list or grid style */}
+            {/* depending on toggled button users will be displayed either in list or grid style */}
               {
                 visualType === 'list'
                 ?
@@ -174,7 +156,7 @@ const  Home = ({ username,setUsername, octokit }) => {
                     </div>
                     
               }
-        </div>
+        </>
     )
 }
 
