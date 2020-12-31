@@ -115,7 +115,7 @@ const  Home = ({ username,setUsername, octokit }) => {
           </div>
           
           
-            <h2 id="selebrityHeader">Selebrities On GitHub</h2>
+            <h2 id="selebrityHeader">Celebrities On GitHub</h2>
 
             {/* buttons for toggling between list and grid styles */}
            <div id="toggleButtons">
