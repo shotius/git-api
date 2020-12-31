@@ -1,7 +1,7 @@
 
 const UserInfo = ({avatar, gitPage, name, userType, repos, organizations}) => {
     return (
-      <>
+      <div id="divSingleUserInfo">
         <img src={avatar} alt="user avatar" id="userAvatar"/>
         <div id="userName"><strong>Name: </strong><a href={gitPage} target="_blank">{name}</a></div>
         <div id="userType"><strong>Type: </strong>{userType}</div>
@@ -34,7 +34,7 @@ const UserInfo = ({avatar, gitPage, name, userType, repos, organizations}) => {
                 }
             </ul>
         </div>
-      </>
+      </div>
     )
   }
 

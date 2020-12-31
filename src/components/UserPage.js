@@ -112,31 +112,33 @@ function UserPage ({ setUsername, octokit})  {
 
     return (
       <div>
+        <div id="divHomeButton">
           <button id="btnHome"  type="submit" onClick={handleBack}> back to search </button>
+        </div>
         
           <br/>
         
-        <div>
-          {
-            /**firstly we check if user is not found
-             * second if the user's flag (**Not Found**) is not set probably it is still fetching
-             * (in case name is not set, that meand user api is fetching)
-             * else user is found and display info about the user
-             */
-            error === "**Not Found**"
-            ? <p>{error}</p>
-            : name.length === 0 
-            ? <p>fetching...</p>
-            : <UserInfo 
-                  organizations={organizations}
-                  userType={userType}
-                  gitPage={gitPage}
-                  avatar={avatar}
-                  repos={repos}
-                  name={name}
-                />
-            
-          }  
+        <div id="divSingleUserCanvas">
+            {
+                /**firstly we check if user is not found
+                 * second if the user's flag (**Not Found**) is not set probably it is still fetching
+                 * (in case name is not set, that meand user api is fetching)
+                 * else user is found and display info about the user
+                 */
+                error === "**Not Found**"
+                ? <p>{error}</p>
+                : name.length === 0 
+                ? <p>fetching...</p>
+                : <UserInfo 
+                      organizations={organizations}
+                      userType={userType}
+                      gitPage={gitPage}
+                      avatar={avatar}
+                      repos={repos}
+                      name={name}
+                    />
+                
+            }  
           </div>
       </div>
     );

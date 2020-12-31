@@ -23,6 +23,17 @@
     display: flex;
     justify-content: flex-end;
 }
+.toggleBtn {
+    background: none;
+    border: solid 1px black;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    outline: inherit;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
 
 /* famous users part */
 
@@ -30,9 +41,8 @@
 .ListView {
     margin: 5px 0;
     padding: 5px;
-    background: lightblue;
+    background: lightgrey;
     border: solid 1px black;
-    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -40,7 +50,7 @@
     .divSelebrityAvatar {
         width: 100%;
         .imgFamousUser {
-            width: 100%;
+            width: 90%;
         }
     }
 
@@ -89,7 +99,7 @@
 .GridView {
     display: flex;
     flex-direction: column;
-    background-color: lightblue;
+    background-color: lightgrey;
     border: solid 1px black;
     padding: 4%;
     margin: 5px;
@@ -116,5 +126,35 @@
     @media (min-width: 1000px) {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
+}
+
+/* css for single user */
+#divHomeButton {
+    display: flex;
+    justify-content: center;
+
+    #btnHome {
+        color: white;
+        background: #0d6efd;
+        border: none;
+        padding: 7px;
+        font-weight: bold;
+        cursor: pointer;
+        outline: inherit;
+    }
+}
+ 
+
+#divSingleUserCanvas {
+    display: flex;
+    justify-content: center;
+}
+
+#divSingleUserInfo {
+    background: lightgrey;
+    padding: 8px;
+    
+    border: solid 1px darkgrey;
+    margin: 0 auto;
 }
 

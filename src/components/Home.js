@@ -26,10 +26,24 @@ const  Home = ({ username,setUsername, octokit }) => {
     const [btnListStyle, setBtnListStyle] = useState({})
     const [btnGridStyle, setBrnGridStyle] = useState({})
 
-    const btnStyle = {
-      "backgroundColor": "gray",
-      "border": "none"
+    const btnActiveStyle = {
+      "color": "white",
+      "background": "#a3a4a5",
+      "border": "none",
+      "padding": "5px",
+      "cursor": "pointer",
+      "outline": "inherit"
+      
     }
+
+    // const brnPassiveStyle = {
+    //   "color": "inherit",
+    //   "background": "none",
+    //   "border": "none",
+    //   "padding": "5px",
+    //   "cursor": "pointer",
+    //   "outline": "inherit"
+    // }
 
   /**on the first load */
     
@@ -87,7 +101,7 @@ const  Home = ({ username,setUsername, octokit }) => {
     // handle clicking on list icon (switch to list view)
     const toggleToList = (e) => {
         setVisualType('list')
-        setBtnListStyle(btnStyle)
+        setBtnListStyle(btnActiveStyle)
         setBrnGridStyle({})
     }
 
@@ -95,7 +109,7 @@ const  Home = ({ username,setUsername, octokit }) => {
     const toggleToGrid = (e) => {
       setVisualType('grid')
       setBtnListStyle({})
-      setBrnGridStyle(btnStyle)
+      setBrnGridStyle(btnActiveStyle)
     }
 
     // since on submit form page rerenders 
@@ -123,8 +137,8 @@ const  Home = ({ username,setUsername, octokit }) => {
 
             {/* buttons for toggling between list and grid styles */}
            <div id="toggleButtons">
-            <button id="btnList" style={btnListStyle} onClick={toggleToList}><img src={list}/></button>
-            <button id="btnGrid" style={btnGridStyle} onClick={toggleToGrid}><img src={grid}/></button>
+            <button className="toggleBtn" id="btnList" style={btnListStyle} onClick={toggleToList}><img src={list}/></button>
+            <button className="toggleBtn" id="btnGrid" style={btnGridStyle} onClick={toggleToGrid}><img src={grid}/></button>
            </div>
 
 
